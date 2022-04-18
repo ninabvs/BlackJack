@@ -11,8 +11,9 @@ namespace BlackJack
         {
             var deck = new Deck();
             var hand = new List<Card>();
+            var total = 0;
 
-            while (true)
+            while (total <= 21)
             {
                 Console.WriteLine("Stand, Hit");
                 string read = Console.ReadLine();
@@ -20,8 +21,18 @@ namespace BlackJack
                 {
                     var card = deck.Cards.Dequeue();
                     hand.Add(card);
-                    var total = hand.Sum(x => Math.Min(x.Rank, 10));
+                    total = hand.Sum(x => Math.Min(x.Rank, 10));
                     Console.WriteLine("Hit with {0} {1}. Total is {2}", card.Suit, card.Rank, total);
+                    if (total > 21)
+                    {
+                        Console.WriteLine("You loose!");
+                        break;
+                    }
+                    else if (total == 21) 
+                    {
+                        Console.WriteLine("You win!");
+                        break;
+                    }
                 }
                 else if (read == "Stand")
                 {
