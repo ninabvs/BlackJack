@@ -13,6 +13,7 @@ namespace BlackJack
             var hand = new Hand();
             var total = 0;
             var oldTotal = hand.total;
+            Random r = new Random();
 
             while (total <= 21)
             {
@@ -20,10 +21,14 @@ namespace BlackJack
                 string read = Console.ReadLine();
                 if (read == "Hit")
                 {
-                    var card = deck.Cards.Dequeue();
+                    int index = r.Next(deck.Cards.Count);
+                    var card = deck.Cards[index];
+                    Console.WriteLine("index {0}, card {1}", index, card.Rank);
+                    deck.Cards.RemoveAt(index);
+
                     if (card.Rank == 1)
                     {
-                        if (oldTotal <= 10)
+                        if (hand.total <= 10)
                         {
                             hand.total = hand.total + 11;
                         }
