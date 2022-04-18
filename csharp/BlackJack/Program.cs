@@ -22,7 +22,8 @@ namespace BlackJack
                     var card = deck.Cards.Dequeue();
                     hand.Add(card);
                     total = hand.Sum(x => Math.Min(x.Rank, 10));
-                    Console.WriteLine("Hit with {0} {1}. Total is {2}", card.Suit, card.Rank, total);
+                    string rank = card.PrsRank();
+                    Console.WriteLine("Hit with {0} {1}. Total is {2}", card.Suit, rank, total);
                     if (total > 21)
                     {
                         Console.WriteLine("You loose!");
