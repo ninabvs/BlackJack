@@ -10,8 +10,9 @@ namespace BlackJack
         static void Main(string[] args)
         {
             var deck = new Deck();
-            var hand = new List<Card>();
+            var hand = new Hand();
             var total = 0;
+            var oldTotal = hand.total;
 
             while (total <= 21)
             {
@@ -20,16 +21,31 @@ namespace BlackJack
                 if (read == "Hit")
                 {
                     var card = deck.Cards.Dequeue();
-                    hand.Add(card);
-                    total = hand.Sum(x => Math.Min(x.Rank, 10));
+                    if (card.Rank == 1)
+                    {
+                        if (oldTotal <= 10)
+                        {
+                            hand.total = hand.total + 11;
+                        }
+                        else
+                        {
+                            hand.total = hand.total + 1;
+                        }
+                        hand.Cards.Add(card);
+                    }
+                    else
+                    {
+                        hand.Cards.Add(card);
+                        hand.total = hand.total + Math.Min(card.Rank, 10);
+                    }
                     string rank = card.PrsRank();
-                    Console.WriteLine("Hit with {0} {1}. Total is {2}", card.Suit, rank, total);
-                    if (total > 21)
+                    Console.WriteLine("Hit with {0} {1}. Total is {2}", card.Suit, rank, hand.total);
+                    if (hand.total > 21)
                     {
                         Console.WriteLine("You loose!");
                         break;
                     }
-                    else if (total == 21) 
+                    else if (hand.total == 21) 
                     {
                         Console.WriteLine("You win!");
                         break;
